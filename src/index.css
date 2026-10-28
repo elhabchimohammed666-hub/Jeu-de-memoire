@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f5f7f5;
+  background: #101412;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-feature-settings: "ss01" on;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -25%, rgba(161, 219, 180, 0.075), transparent 58%),
+    #101412;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #b9f4d0;
+  outline-offset: 4px;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  background: linear-gradient(145deg, rgba(31, 39, 34, 0.86), rgba(23, 29, 26, 0.82));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(18px);
+}
+
+.ambient {
+  position: fixed;
+  z-index: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(100px);
+  opacity: 0.1;
+}
+
+.ambient-one {
+  top: 12%;
+  left: -300px;
+  background: #66c98b;
+}
+
+.ambient-two {
+  right: -310px;
+  bottom: 4%;
+  background: #67b9a2;
+  opacity: 0.07;
+}
+
+.memory-card {
+  perspective: 700px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.memory-card:disabled {
+  cursor: default;
+}
+
+.memory-card-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 430ms cubic-bezier(0.2, 0.72, 0.18, 1);
+}
+
+.memory-card.is-flipped .memory-card-inner,
+.memory-card.is-matched .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.memory-card-back {
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(185, 244, 208, 0.055), transparent 66%),
+    linear-gradient(145deg, #202823, #1a211d);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.memory-card:not(:disabled):hover .memory-card-back {
+  border-color: rgba(185, 244, 208, 0.35);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(185, 244, 208, 0.1), transparent 68%),
+    linear-gradient(145deg, #252f29, #1b2620);
+  box-shadow: 0 5px 22px rgba(141, 215, 164, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.memory-card-front {
+  border: 1px solid rgba(185, 244, 208, 0.22);
+  background: linear-gradient(145deg, #26342b, #1d2922);
+  transform: rotateY(180deg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.memory-card.is-matched .memory-card-front {
+  border-color: rgba(185, 244, 208, 0.52);
+  background: linear-gradient(145deg, #2b4434, #1d3326);
+  box-shadow: 0 0 24px rgba(185, 244, 208, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: match-pop 360ms ease-out;
+}
+
+.animate-fade-up {
+  animation: fade-up 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.animate-card-in {
+  animation: card-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.animate-modal-in {
+  animation: modal-in 450ms cubic-bezier(0.17, 0.82, 0.23, 1.15) both;
+}
+
+.confetti-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti-field i {
+  position: absolute;
+  top: -12px;
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  background: hsl(calc(var(--i) * 33 + 110), 67%, 72%);
+  opacity: 0;
+  animation: confetti-fall 2.4s ease-in calc(var(--i) * 45ms) infinite;
+}
+
+.confetti-field i:nth-child(3n) {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes match-pop {
+  0% { transform: rotateY(180deg) scale(0.94); }
+  55% { transform: rotateY(180deg) scale(1.06); }
+  100% { transform: rotateY(180deg) scale(1); }
+}
+
+@keyframes confetti-fall {
+  0% { opacity: 0; transform: translate3d(0, -8vh, 0) rotate(0); }
+  10% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate3d(42px, 110vh, 0) rotate(520deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
